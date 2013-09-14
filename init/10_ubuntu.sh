@@ -30,6 +30,10 @@ EOF
   fi
 fi
 
+# Add APT Repos
+e_header "Adding Extra PPAs"
+sudo add-apt-repository ppa:ondrej/php5 &> /dev/null
+
 # Update APT.
 e_header "Updating APT"
 sudo apt-get -qq update
@@ -42,6 +46,7 @@ packages=(
   tree sl id3tool
   nmap telnet
   htop
+  php5 
 )
 
 list=()
@@ -57,6 +62,10 @@ if (( ${#list[@]} > 0 )); then
     sudo apt-get -qq install "$package"
   done
 fi
+
+# Install SublimeText3
+e_header "Installing Sublime Text 3"
+sudo dpkg -i "$(curl -fsSL http://c758482.r82.cf2.rackcdn.com/sublime-text_build-3053_amd64.deb)"
 
 # Install Git Extras
 if [[ ! "$(type -P git-extras)" ]]; then

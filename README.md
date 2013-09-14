@@ -50,7 +50,7 @@ Notes:
 
 ```sh
 sudo apt-get -qq update && sudo apt-get -qq upgrade && sudo apt-get -qq install curl && echo &&
-bash -c "$(curl -fsSL https://raw.github.com/cowboy/dotfiles/master/bin/dotfiles)" && source ~/.bashrc
+bash -c "$(curl -fsSL https://raw.github.com/gMagicScott/dotfiles/master/bin/dotfiles)" && source ~/.bashrc
 ```
 
 ## The "init" step
