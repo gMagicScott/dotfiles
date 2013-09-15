@@ -1,6 +1,3 @@
-# Ubuntu-only stuff. Abort if not Ubuntu.
-[[ "$(cat /etc/issue 2> /dev/null)" =~ Ubuntu ]] || return 1
-
 # If the old files isn't removed, the duplicate APT alias will break sudo!
 sudoers_old="/etc/sudoers.d/sudoers-cowboy"; [[ -e "$sudoers_old" ]] && sudo rm "$sudoers_old"
 
@@ -32,7 +29,26 @@ fi
 
 # Add APT Repos
 e_header "Adding Extra PPAs"
-sudo add-apt-repository ppa:ondrej/php5 &> /dev/null
+echo "deb http://apt.opscode.com/ `lsb_release -cs`-0.10 main" | sudo tee /etc/apt/sources.list.d/opscode.list &> /dev/null
+if [ $? -eq 0 ]; then
+    e_success "Opscode APT added to source list"
+else
+    e_error "Adding Opscode APT to source list failed" && exit 1
+fi
+
+sudo mkdir -p /etc/apt/trusted.gpg.d && gpg --keyserver keys.gnupg.net --recv-keys 83EF826A && gpg --export packages@opscode.com | sudo tee /etc/apt/trusted.gpg.d/opscode-keyring.gpg > /dev/null
+if [ $? -eq 0 ]; then
+    e_success "Added GPG Key for Opscode APT"
+else
+    e_error "Adding Opscode APT GPG Key failed" && exit 1
+fi
+
+echo "chef chef/none string https://api.opscode.com/organizations/lesovic" | sudo debconf-set-selections
+if [ $? -eq 0 ]; then
+    e_success "Set preseed for Chef install"
+else
+    e_error "Preseeding Chef install failed" && exit 1
+fi
 
 # Update APT.
 e_header "Updating APT"
@@ -46,7 +62,7 @@ packages=(
   tree sl id3tool
   nmap telnet
   htop
-  php5 
+  opscode-keyring chef
 )
 
 list=()
@@ -63,9 +79,6 @@ if (( ${#list[@]} > 0 )); then
   done
 fi
 
-# Install SublimeText3
-e_header "Installing Sublime Text 3"
-sudo dpkg -i "$(curl -fsSL http://c758482.r82.cf2.rackcdn.com/sublime-text_build-3053_amd64.deb)"
 
 # Install Git Extras
 if [[ ! "$(type -P git-extras)" ]]; then
@@ -75,3 +88,14 @@ if [[ ! "$(type -P git-extras)" ]]; then
     sudo make install
   )
 fi
+
+# Install RVM
+
+curl -L https://get.rvm.io | bash -s stable --ignore-dotfiles
+
+# Install some Rubies
+source "$HOME/.rvm/scripts/rvm"
+command rvm install 1.9.2,rbx,jruby
+gem install berkshelf
+
+cd chef && berks install --path cookbooks && chef-solo -c solo.rb -j solo.json
