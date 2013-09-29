@@ -75,7 +75,7 @@ curl -L https://get.rvm.io | bash -s stable
 
 # Install some Rubies
 source "$HOME/.rvm/scripts/rvm"
-command rvm install 1.9.2,rbx,jruby
-gem install berkshelf
+$HOME/.rvm/bin/rvm install 1.9.2,rbx,jruby
+$HOME/.rvm/bin/gem install berkshelf
 
 cd chef && berks install --path cookbooks && chef-solo -c solo.rb -j solo.json
