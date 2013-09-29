@@ -27,28 +27,6 @@ EOF
   fi
 fi
 
-# Add APT Repos
-e_header "Adding Extra PPAs"
-echo "deb http://apt.opscode.com/ `lsb_release -cs`-0.10 main" | sudo tee /etc/apt/sources.list.d/opscode.list &> /dev/null
-if [ $? -eq 0 ]; then
-    e_success "Opscode APT added to source list"
-else
-    e_error "Adding Opscode APT to source list failed" && exit 1
-fi
-
-sudo mkdir -p /etc/apt/trusted.gpg.d && gpg --keyserver keys.gnupg.net --recv-keys 83EF826A && gpg --export packages@opscode.com | sudo tee /etc/apt/trusted.gpg.d/opscode-keyring.gpg > /dev/null
-if [ $? -eq 0 ]; then
-    e_success "Added GPG Key for Opscode APT"
-else
-    e_error "Adding Opscode APT GPG Key failed" && exit 1
-fi
-
-echo "chef chef/none string https://api.opscode.com/organizations/lesovic" | sudo debconf-set-selections
-if [ $? -eq 0 ]; then
-    e_success "Set preseed for Chef install"
-else
-    e_error "Preseeding Chef install failed" && exit 1
-fi
 
 # Update APT.
 e_header "Updating APT"
@@ -62,7 +40,6 @@ packages=(
   tree sl id3tool
   nmap telnet
   htop
-  opscode-keyring chef
 )
 
 list=()
@@ -89,9 +66,12 @@ if [[ ! "$(type -P git-extras)" ]]; then
   )
 fi
 
+# Install Chef
+curl -L https://www.opscode.com/chef/install.sh | sudo bash
+
 # Install RVM
 
-curl -L https://get.rvm.io | bash -s stable --ignore-dotfiles
+curl -L https://get.rvm.io | bash -s stable
 
 # Install some Rubies
 source "$HOME/.rvm/scripts/rvm"
