@@ -69,14 +69,10 @@ fi
 # Install Chef
 curl -L https://www.opscode.com/chef/install.sh | sudo bash
 
-# Install RVM
+# Use Built-In ruby that we get from chef
+alias gem="/opt/chef/embedded/bin/gem"
+alias berks="/opt/chef/embedded/bin/berks"
 
-curl -L https://get.rvm.io | bash -s stable
-
-# Install some Rubies
-source "$HOME/.rvm/scripts/rvm"
-$HOME/.rvm/bin/rvm install ruby-2.0.0
-source $HOME/.rvm/enviroments/ruby-2.0.0-p247@global
-gem install berkshelf
+gem install berkshelf --no-ri --no-rdoc
 
 cd chef && berks install --path cookbooks && chef-solo -c solo.rb -j solo.json
