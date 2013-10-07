@@ -70,9 +70,8 @@ fi
 curl -L https://www.opscode.com/chef/install.sh | sudo bash
 
 # Use Built-In ruby that we get from chef
-alias gem="/opt/chef/embedded/bin/gem"
 alias berks="/opt/chef/embedded/bin/berks"
 
-gem install berkshelf --no-ri --no-rdoc
+/opt/chef/embedded/bin/gem install berkshelf --no-ri --no-rdoc
 
-cd chef && berks install --path cookbooks && chef-solo -c solo.rb -j solo.json
+cd chef && /opt/chef/embedded/bin/berks install --path cookbooks && chef-solo -c solo.rb -j solo.json
