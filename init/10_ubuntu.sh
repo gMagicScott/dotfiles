@@ -53,7 +53,7 @@ done
 if (( ${#list[@]} > 0 )); then
   e_header "Installing APT packages: ${list[*]}"
   for package in "${list[@]}"; do
-    sudo apt-get -qq install "$package" &>/dev/null
+    sudo apt-get -qq install "$package" | debconf-apt-progress
     if [ $? -eq 0 ]; then
       e_success "$package successfully installed"
     fi
@@ -71,11 +71,15 @@ if [[ ! "$(type -P git-extras)" ]]; then
 fi
 
 # Install Chef
-e_header "Installing Opscode Chef"
-curl -L https://www.opscode.com/chef/install.sh | sudo bash
+if [[ ! "$(type -P chef-solo)" ]]; then
+  e_header "Installing Opscode Chef"
+  curl -L https://www.opscode.com/chef/install.sh | sudo bash
+fi
 
 # Use Built-In ruby that we get from chef
-e_header "Installing Berkshelf"
-sudo /opt/chef/embedded/bin/gem install berkshelf --no-ri --no-rdoc
+if [[ ! "$(type -P /opt/chef/embedded/bin/berks)" ]]; then
+  e_header "Installing Berkshelf"
+  sudo /opt/chef/embedded/bin/gem install berkshelf --no-ri --no-rdoc
+fi
 
-cd chef && /opt/chef/embedded/bin/berks install --path cookbooks && chef-solo -c solo.rb -j solo.json
+cd $HOME/.dotfiles/chef && /opt/chef/embedded/bin/berks install --path cookbooks && sudo chef-solo -c solo.rb -j solo.json
