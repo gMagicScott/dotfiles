@@ -56,7 +56,7 @@ if (( ${#list[@]} > 0 )); then
     sudo apt-get -qq install "$package" &>/dev/null
     if [ $? -eq 0 ]; then
       e_success "$package successfully installed"
-    else
+    fi
   done
 fi
 
