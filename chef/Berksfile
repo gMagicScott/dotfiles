@@ -1,3 +1,4 @@
 site :opscode
 
-cookbook 'getting-started'
+cookbook 'apt'
+cookbook 'zsh'
