@@ -32,16 +32,6 @@ Note:
 * Files in `caches` are cached files, only used by some scripts. This folder will only be created if necessary.
 
 ## Installation
-### OS X
-Notes:
-
-* You need to be an administrator (for `sudo`).
-* You need to have installed [XCode Command Line Tools](https://developer.apple.com/downloads/index.action?=command%20line%20tools), which are available as a separate, optional (and _much smaller_) download from XCode.
-
-```sh
-bash -c "$(curl -fsSL https://raw.github.com/cowboy/dotfiles/master/bin/dotfiles)" && source ~/.bashrc
-```
-
 ### Ubuntu
 Notes:
 
@@ -49,24 +39,11 @@ Notes:
 * If APT hasn't been updated or upgraded recently, it will probably be a few minutes before you see anything.
 
 ```sh
-sudo apt-get -qq update && sudo apt-get -qq upgrade && sudo apt-get -qq install curl && echo &&
-bash -c "$(curl -fsSL https://raw.github.com/gMagicScott/dotfiles/master/bin/dotfiles)" && source ~/.bashrc
+sudo apt-get -qq update && sudo apt-get -qq upgrade && sudo apt-get -qq install curl && echo && clear && bash -c "$(curl -fsSL https://raw.github.com/gMagicScott/dotfiles/master/bin/dotfiles)" && source ~/.bashrc
 ```
 
 ## The "init" step
 These things will be installed, but _only_ if they aren't already.
-
-### OS X
-* Homebrew
-  * git
-  * tree
-  * sl
-  * lesspipe
-  * id3tool
-  * nmap
-  * git-extras
-  * htop-osx
-  * apple-gcc42 (via [homebrew-dupes](https://github.com/Homebrew/homebrew-dupes/blob/master/apple-gcc42.rb))
 
 ### Ubuntu
 * APT

@@ -40,6 +40,7 @@ packages=(
   tree sl id3tool
   nmap telnet
   htop
+  libxslt-dev libxml2-dev
 )
 
 list=()
@@ -52,7 +53,10 @@ done
 if (( ${#list[@]} > 0 )); then
   e_header "Installing APT packages: ${list[*]}"
   for package in "${list[@]}"; do
-    sudo apt-get -qq install "$package"
+    sudo apt-get -qq install "$package" &>/dev/null
+    if [ $? -eq 0 ]; then
+      e_success "$package successfully installed"
+    else
   done
 fi
 
@@ -67,11 +71,11 @@ if [[ ! "$(type -P git-extras)" ]]; then
 fi
 
 # Install Chef
+e_header "Installing Opscode Chef"
 curl -L https://www.opscode.com/chef/install.sh | sudo bash
 
 # Use Built-In ruby that we get from chef
-alias berks="/opt/chef/embedded/bin/berks"
-
+e_header "Installing Berkshelf"
 sudo /opt/chef/embedded/bin/gem install berkshelf --no-ri --no-rdoc
 
 cd chef && /opt/chef/embedded/bin/berks install --path cookbooks && chef-solo -c solo.rb -j solo.json
