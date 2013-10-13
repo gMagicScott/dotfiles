@@ -41,7 +41,6 @@ packages=(
   nmap telnet
   htop
   libxslt-dev libxml2-dev
-  expect
 )
 
 list=()
@@ -72,34 +71,26 @@ if [[ ! "$(type -P git-extras)" ]]; then
 fi
 
 # Install CrashPlan
-# TODO: this needs to be idempotent...
-if [[ ! "$(type -P /opt/chef/embedded/bin/berks)" ]]; then
+if [[ ! "$(type -P /usr/local/bin/CrashPlanDesktop)" ]]; then
   e_header "Installing CrashPlan"
   pushd /tmp &> /dev/null
     mkdir CrashPlan && cd CrashPlan
     curl -L http://download.crashplan.com/installs/linux/install/CrashPlan/CrashPlan_3.5.3_Linux.tgz | tar -zx
     cd CrashPlan_install
-    # Kill the 'more' call for the EULA
+    # Lots of SED to answer all the questions with the defaults...
     sed -e 's@more ./EULA.txt@@' install.sh &> install.sh
-    expect -c "
-    spawn sudo ./install.sh
-    expect \"Press enter to continue with installation. \"
-    send \"\r\"
-    expect \"Would you like to download the JRE and dedicate it to CrashPlan? (y/n) [y] \"
-    send \"Y\r\"
-    expect \"What directory do you wish to install CrashPlan to? [/usr/local/crashplan]\"
-    send \"/usr/local/crashplan\r\"
-    expect \"What directory do you wish to link the CrashPlan executable to? [/usr/local/bin]\"
-    send \"/usr/local/bin\r\"
-    expect \"What directory do you wish to store backups in? [/usr/local/var/crashplan}] \"
-    send \"\r\"
-    expect \"What directory contains your SYSV init scripts?\"
-    send \"\r\"
-    expect \"What directory contains your runlevel init links?\"
-    send \"\r\"
-    expect \"\"
-    send \"y\r\"
-    interact "
+    sed -e 's@read YN_PD@@' install.sh &> install.sh
+    sed -e 's@read JAVADL@@' install.sh &> install.sh
+    sed -e 's@read ENTER@@' install.sh &> install.sh
+    sed -e 's@agreed=0@agreed=1@' install.sh &> install.sh
+    sed -e 's@read TARGETDIR_X@@' install.sh &> install.sh
+    sed -e 's@read BINSDIR_X@@' install.sh &> install.sh
+    sed -e 's@read MANIFESTDIR_X@@' install.sh &> install.sh
+    sed -e 's@read INITDIR_X@@' install.sh &> install.sh
+    sed -e 's@read RUNLVLDIR_X@@' install.sh &> install.sh
+    sed -e 's@read YN@@' install.sh &> install.sh
+    # Recall skips some parts so I don't need to SED for it
+    sudo ./install.sh recall
   popd
 fi
 
