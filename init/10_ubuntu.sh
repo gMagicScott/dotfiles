@@ -54,7 +54,7 @@ done
 if (( ${#list[@]} > 0 )); then
   e_header "Installing APT packages: ${list[*]}"
   for package in "${list[@]}"; do
-    sudo apt-get -qq install "$package"
+    sudo apt-get -qq install "$package" &> /dev/null
     if [ $? -eq 0 ]; then
       e_success "$package successfully installed"
     fi
