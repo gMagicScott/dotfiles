@@ -41,6 +41,7 @@ packages=(
   nmap telnet
   htop
   libxslt-dev libxml2-dev
+  expect
 )
 
 list=()
@@ -68,6 +69,38 @@ if [[ ! "$(type -P git-extras)" ]]; then
     cd ~/.dotfiles/libs/git-extras &&
     sudo make install
   )
+fi
+
+# Install CrashPlan
+# TODO: this needs to be idempotent...
+if [[ ! "$(type -P /opt/chef/embedded/bin/berks)" ]]; then
+  e_header "Installing CrashPlan"
+  pushd /tmp
+    mkdir CrashPlan && cd CrashPlan
+    curl -L http://download.crashplan.com/installs/linux/install/CrashPlan/CrashPlan_3.5.3_Linux.tgz | tar -zx
+    cd CrashPlan_install
+    # Kill the 'more' call for the EULA
+    sed -e 's@more ./EULA.txt@@' install.sh &> install.sh
+    expect -c "
+    spawn sudo ./install.sh
+    expect \"Press enter to continue with installation. \"
+    send \"\r\"
+    expect \"Would you like to download the JRE and dedicate it to CrashPlan? (y/n) [y] \"
+    send \"Y\r\"
+    expect \"What directory do you wish to install CrashPlan to? [/usr/local/crashplan]\"
+    send \"/usr/local/crashplan\r\"
+    expect \"What directory do you wish to link the CrashPlan executable to? [/usr/local/bin]\"
+    send \"/usr/local/bin\r\"
+    expect \"What directory do you wish to store backups in? [/usr/local/var/crashplan}] \"
+    send \"\r\"
+    expect \"What directory contains your SYSV init scripts?\"
+    send \"\r\"
+    expect \"What directory contains your runlevel init links?\"
+    send \"\r\"
+    expect \"\"
+    send \"y\r\"
+    interact "
+  popd
 fi
 
 # Install Chef
