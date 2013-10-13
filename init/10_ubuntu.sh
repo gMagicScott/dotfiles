@@ -75,7 +75,7 @@ fi
 # TODO: this needs to be idempotent...
 if [[ ! "$(type -P /opt/chef/embedded/bin/berks)" ]]; then
   e_header "Installing CrashPlan"
-  pushd /tmp
+  pushd /tmp &> /dev/null
     mkdir CrashPlan && cd CrashPlan
     curl -L http://download.crashplan.com/installs/linux/install/CrashPlan/CrashPlan_3.5.3_Linux.tgz | tar -zx
     cd CrashPlan_install
