@@ -78,17 +78,17 @@ if [[ ! "$(type -P /usr/local/bin/CrashPlanDesktop)" ]]; then
     curl -L http://download.crashplan.com/installs/linux/install/CrashPlan/CrashPlan_3.5.3_Linux.tgz | tar -zx
     cd CrashPlan-install
     # Lots of SED to answer all the questions with the defaults...
-    sed -e 's@more ./EULA.txt@@' install.sh &> install.sh
-    sed -e 's@read YN_PD@@' install.sh &> install.sh
-    sed -e 's@read JAVADL@@' install.sh &> install.sh
-    sed -e 's@read ENTER@@' install.sh &> install.sh
-    sed -e 's@agreed=0@agreed=1@' install.sh &> install.sh
-    sed -e 's@read TARGETDIR_X@@' install.sh &> install.sh
-    sed -e 's@read BINSDIR_X@@' install.sh &> install.sh
-    sed -e 's@read MANIFESTDIR_X@@' install.sh &> install.sh
-    sed -e 's@read INITDIR_X@@' install.sh &> install.sh
-    sed -e 's@read RUNLVLDIR_X@@' install.sh &> install.sh
-    sed -e 's@read YN@@' install.sh &> install.sh
+    sed -i 's@more ./EULA.txt@@' install.sh
+    sed -i 's@read YN_PD@@' install.sh
+    sed -i 's@read JAVADL@@' install.sh
+    sed -i 's@read ENTER@@' install.sh
+    sed -i 's@agreed=0@agreed=1@' install.sh
+    sed -i 's@read TARGETDIR_X@@' install.sh
+    sed -i 's@read BINSDIR_X@@' install.sh
+    sed -i 's@read MANIFESTDIR_X@@' install.sh
+    sed -i 's@read INITDIR_X@@' install.sh
+    sed -i 's@read RUNLVLDIR_X@@' install.sh
+    sed -i 's@read YN@@' install.sh
     # Recall skips some parts so I don't need to SED for it
     sudo ./install.sh recall
   popd
