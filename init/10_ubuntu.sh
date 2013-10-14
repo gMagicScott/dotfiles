@@ -76,7 +76,7 @@ if [[ ! "$(type -P /usr/local/bin/CrashPlanDesktop)" ]]; then
   pushd /tmp &> /dev/null
     mkdir CrashPlan && cd CrashPlan
     curl -L http://download.crashplan.com/installs/linux/install/CrashPlan/CrashPlan_3.5.3_Linux.tgz | tar -zx
-    cd CrashPlan_install
+    cd CrashPlan/CrashPlan_install
     # Lots of SED to answer all the questions with the defaults...
     sed -e 's@more ./EULA.txt@@' install.sh &> install.sh
     sed -e 's@read YN_PD@@' install.sh &> install.sh
