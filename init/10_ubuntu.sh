@@ -93,7 +93,7 @@ if [[ ! "$(type -P /usr/local/bin/CrashPlanDesktop)" ]]; then
     # Recall skips some parts so I don't need to SED for it
     sudo `pwd`/install.sh &> /dev/null &
     CRASH_PID=$!
-    while [[ kill -0 $CRASH_PID ]]; do
+    while kill -0 $CRASH_PID; do
       echo -e "Installing CrashPlan\r\033[K"
       sleep 1
       echo -e "Installing CrashPlan .\r\033[K"
