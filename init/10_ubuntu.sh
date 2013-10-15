@@ -90,7 +90,14 @@ if [[ ! "$(type -P /usr/local/bin/CrashPlanDesktop)" ]]; then
     sed -i 's@read RUNLVLDIR_X@@' install.sh
     sed -i 's@read YN@@' install.sh
     # Recall skips some parts so I don't need to SED for it
-    sudo ./install.sh recall
+    sudo .`pwd`/install.sh
+    if [ $? -eq 0 ]; then
+      e_success "CrashPlan successfully installed"
+    else
+      e_error "CrashPlan install failed, aborting"
+      sleep 20
+      exit 1
+    fi
   popd
 fi
 
