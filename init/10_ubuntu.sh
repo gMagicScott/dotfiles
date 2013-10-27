@@ -105,7 +105,7 @@ fi
 # Install Chef
 if [[ ! "$(type -P chef-solo)" ]]; then
   e_header "Installing Opscode Chef"
-  curl -L https://www.opscode.com/chef/install.sh | sudo bash
+  URL='https://opscode-omnibus-packages.s3.amazonaws.com/ubuntu/13.04/x86_64/chef_11.6.2-1.ubuntu.13.04_amd64.deb'; FILE=`mktemp`; wget "$URL" -qO $FILE && sudo dpkg -i $FILE; rm $FILE
 fi
 
 # Use Built-In ruby that we get from chef
