@@ -92,6 +92,8 @@ if [[ ! "$(type -P /usr/local/bin/CrashPlanDesktop)" ]]; then
     sed -i 's@read reply@reply=no@' install.sh
     sudo `pwd`/install.sh &> /dev/null
     if [ $? -eq 0 ]; then
+      echo "StartupWMClass=CrashPlan" >> ~/Desktop/CrashPlan.desktop
+      mv ~/Desktop/CrashPlan.desktop ~/.local/share/applications
       e_success "CrashPlan successfully installed"
     else
       e_error "CrashPlan install failed, aborting"
