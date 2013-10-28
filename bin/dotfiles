@@ -142,7 +142,6 @@ if [[ ! -d ~/.dotfiles ]]; then
   e_header "Downloading dotfiles"
   git clone --recursive git://github.com/gMagicScott/dotfiles.git ~/.dotfiles
   cd ~/.dotfiles
-  git checkout -b gh-issues/1 origin/gh-issues/1
 else
   # Make sure we have the latest files.
   e_header "Updating dotfiles"
