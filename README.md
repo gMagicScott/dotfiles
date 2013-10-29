@@ -1,6 +1,6 @@
 # Dotfiles
 
-My OS X / Ubuntu dotfiles.
+Ubuntu dotfiles.
 
 ## Why is this a git repo?
 
@@ -92,13 +92,13 @@ I think [my bash prompt](https://github.com/cowboy/dotfiles/blob/master/source/5
 
 Git repos display as **[branch:flags]** where flags are:
 
-**?** untracked files  
-**!** changed (but unstaged) files  
+**?** untracked files
+**!** changed (but unstaged) files
 **+** staged files
 
 SVN repos display as **[rev1:rev2]** where rev1 and rev2 are:
 
-**rev1** last changed revision  
+**rev1** last changed revision
 **rev2** revision
 
 Check it out:
@@ -106,11 +106,11 @@ Check it out:
 ![My awesome bash prompt](http://farm8.staticflickr.com/7142/6754488927_563dd73553_b.jpg)
 
 ## Inspiration
-<https://github.com/gf3/dotfiles>  
-<https://github.com/mathiasbynens/dotfiles>  
+<https://github.com/gf3/dotfiles>
+<https://github.com/mathiasbynens/dotfiles>
 (and 15+ years of accumulated crap)
 
 ## License
-Copyright (c) 2012 "Cowboy" Ben Alman  
-Licensed under the MIT license.  
+Copyright (c) 2012 "Cowboy" Ben Alman
+Licensed under the MIT license.
 <http://benalman.com/about/license/>
