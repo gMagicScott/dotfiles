@@ -1,6 +1,7 @@
 # Dotfiles
-
 Ubuntu dotfiles.
+
+> This is a personal updated fork from `[cowboy/dotfiles](https://github.com/cowboy/dotfiles)`. I didn't use GitHub's official **Fork** function so I wouldn't be prompted to pull request my changes constantly.
 
 ## Why is this a git repo?
 
