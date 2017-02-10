@@ -260,12 +260,6 @@ function do_stuff() {
 
 export prompt_delay=5
 
-# Ensure that we can actually, like, compile anything.
-if [[ ! "$(type -P gcc)" ]] && is_osx; then
-  e_error "XCode or the Command Line Tools for XCode must be installed first."
-  exit 1
-fi
-
 # If Git is not installed, install it (Ubuntu only, since Git comes standard
 # with recent XCode or CLT)
 if [[ ! "$(type -P git)" ]] && is_ubuntu; then
