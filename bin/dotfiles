@@ -265,6 +265,7 @@ GIT_APTSOURCE_FILE="/etc/apt/sources.list.d/git-core-ppa-$(lsb_release --codenam
 if [[ ! -f $GIT_APTSOURCE_FILE]]; then
   e_header "Adding Git Maintainer's PPA"
   sudo add-apt-repository -ys ppa:git-core/ppa
+fi
 if [[ ! "$(type -P git)" ]] then
   e_header "Installing Git"
   sudo apt-get -qq install git
