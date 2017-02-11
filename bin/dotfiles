@@ -260,11 +260,14 @@ function do_stuff() {
 
 export prompt_delay=5
 
-# If Git is not installed, install it (Ubuntu only, since Git comes standard
-# with recent XCode or CLT)
-if [[ ! "$(type -P git)" ]] && is_ubuntu; then
+# If Git is not installed, install it
+GIT_APTSOURCE_FILE="/etc/apt/sources.list.d/git-core-ppa-$(lsb_release --codename --short).list"
+if [[ ! -f $GIT_APTSOURCE_FILE]]; then
+  e_header "Adding Git Maintainer's PPA"
+  sudo add-apt-repository -ys ppa:git-core/ppa
+if [[ ! "$(type -P git)" ]] then
   e_header "Installing Git"
-  sudo apt-get -qq install git-core
+  sudo apt-get -qq install git
 fi
 
 # If Git isn't installed by now, something exploded. We gots to quit!
