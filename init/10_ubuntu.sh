@@ -70,37 +70,6 @@ if [[ ! "$(type -P git-extras)" ]]; then
   )
 fi
 
-# Install CrashPlan
-if [[ ! "$(type -P /usr/local/bin/CrashPlanDesktop)" ]]; then
-  e_header "Installing CrashPlan"
-  pushd /tmp &> /dev/null
-    mkdir CrashPlan && cd CrashPlan
-    curl -L http://download.crashplan.com/installs/linux/install/CrashPlan/CrashPlan_3.5.3_Linux.tgz | tar -zx
-    cd CrashPlan-install
-    # Lots of SED to answer all the questions with the defaults...
-    sed -i 's@more ./EULA.txt@@' install.sh
-    sed -i 's@read YN_PD@@' install.sh
-    sed -i 's@read JAVADL@@' install.sh
-    sed -i 's@read ENTER@@' install.sh
-    sed -i 's@agreed=0@agreed=1@' install.sh
-    sed -i 's@read TARGETDIR_X@@' install.sh
-    sed -i 's@read BINSDIR_X@@' install.sh
-    sed -i 's@read MANIFESTDIR_X@@' install.sh
-    sed -i 's@read INITDIR_X@@' install.sh
-    sed -i 's@read RUNLVLDIR_X@@' install.sh
-    sed -i 's@read YN@@' install.sh
-    sed -i 's@read reply@reply=no@' install.sh
-    sudo `pwd`/install.sh &> /dev/null
-    if [ $? -eq 0 ]; then
-      echo "StartupWMClass=CrashPlan" >> ~/Desktop/CrashPlan.desktop
-      mv ~/Desktop/CrashPlan.desktop ~/.local/share/applications
-      e_success "CrashPlan successfully installed"
-    else
-      e_error "CrashPlan install failed, aborting"
-      exit 1
-    fi
-  popd
-fi
 
 # Install Chef
 if [[ ! "$(type -P chef-solo)" ]]; then
