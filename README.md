@@ -40,7 +40,7 @@ Notes:
 * If APT hasn't been updated or upgraded recently, it will probably be a few minutes before you see anything.
 
 ```sh
-sudo apt-get -qq update && sudo apt-get -qq upgrade && sudo apt-get -qq install curl && echo && clear && bash -c "$(curl -fsSL https://raw.github.com/gMagicScott/dotfiles/master/bin/dotfiles)" && source ~/.bashrc
+sudo apt update -y && sudo apt upgrade -y && bash -c "$(curl -fsSL https://raw.github.com/gMagicScott/dotfiles/master/bin/dotfiles)" && source ~/.bashrc
 ```
 
 ## The "init" step
