@@ -69,18 +69,3 @@ if [[ ! "$(type -P git-extras)" ]]; then
     sudo make install
   )
 fi
-
-
-# Install Chef
-if [[ ! "$(type -P chef-solo)" ]]; then
-  e_header "Installing Opscode Chef"
-  URL='https://opscode-omnibus-packages.s3.amazonaws.com/ubuntu/13.04/x86_64/chef_11.6.2-1.ubuntu.13.04_amd64.deb'; FILE=`mktemp`; wget "$URL" -qO $FILE && sudo dpkg -i $FILE; rm $FILE
-fi
-
-# Use Built-In ruby that we get from chef
-if [[ ! "$(type -P /opt/chef/embedded/bin/berks)" ]]; then
-  e_header "Installing Berkshelf"
-  sudo /opt/chef/embedded/bin/gem install berkshelf --no-ri --no-rdoc
-fi
-
-cd $HOME/.dotfiles/chef && /opt/chef/embedded/bin/berks install --path cookbooks && sudo chef-solo -c solo.rb -j solo.json
