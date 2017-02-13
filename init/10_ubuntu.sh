@@ -1,6 +1,3 @@
-# If the old files isn't removed, the duplicate APT alias will break sudo!
-sudoers_old="/etc/sudoers.d/sudoers-cowboy"; [[ -e "$sudoers_old" ]] && sudo rm "$sudoers_old"
-
 # Installing this sudoers file makes life easier.
 sudoers_file="sudoers-dotfiles"
 sudoers_src=~/.dotfiles/conf/ubuntu/$sudoers_file
@@ -11,10 +8,12 @@ The sudoers file can be updated to allow certain commands to be executed
 without needing to use sudo. This is potentially dangerous and should only
 be attempted if you are logged in as root in another shell.
 
-This will be skipped if "Y" isn't pressed within the next 15 seconds.
+This will happen if "N" isn't pressed within the next 10 seconds.
 EOF
-  read -N 1 -t 15 -p "Update sudoers file? [y/N] " update_sudoers; echo
-  if [[ "$update_sudoers" =~ [Yy] ]]; then
+  read -N 1 -t 10 -p "Update sudoers file? [Y/n] " update_sudoers; echo
+  if [[ "$update_sudoers"  =~ [Nn] ]]; then
+    echo "Skipping."
+  else
     e_header "Updating sudoers"
     visudo -cf "$sudoers_src" >/dev/null && {
       sudo cp "$sudoers_src" "$sudoers_dest" &&
@@ -22,8 +21,6 @@ EOF
     } >/dev/null 2>&1 &&
     echo "File $sudoers_dest updated." ||
     echo "Error updating $sudoers_dest file."
-  else
-    echo "Skipping."
   fi
 fi
 

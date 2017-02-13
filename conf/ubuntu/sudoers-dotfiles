@@ -2,7 +2,7 @@
 # Reference: http://ubuntuforums.org/showthread.php?t=1132821
 
 # Command aliases.
-Cmnd_Alias APT = /usr/bin/apt-get
+Cmnd_Alias APT = /usr/bin/apt-get,/usr/bin/apt
 
 # Members of the sudo and admin groups can run these commands without password.
 %sudo ALL=(ALL) ALL, NOPASSWD:APT
