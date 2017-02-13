@@ -161,35 +161,6 @@ function setdiff() {
 ###########################################
 
 # Initialize.
-init_file=$DOTFILES/caches/init/selected
-function init_files() {
-  local i f dirname oses os opt remove
-  dirname="$(dirname "$1")"
-  f=("$@")
-  menu_options=(); menu_selects=()
-  for i in "${!f[@]}"; do menu_options[i]="$(basename "${f[i]}")"; done
-  if [[ -e "$init_file" ]]; then
-    # Read cache file if possible
-    IFS=$'\n' read -d '' -r -a menu_selects < "$init_file"
-  else
-    # Otherwise default to all scripts not specifically for other OSes
-    oses=($(get_os 1))
-    for opt in "${menu_options[@]}"; do
-      remove=
-      for os in "${oses[@]}"; do
-        [[ "$opt" =~ (^|[^a-z])$os($|[^a-z]) ]] && remove=1 && break
-      done
-      [[ "$remove" ]] || menu_selects=("${menu_selects[@]}" "$opt")
-    done
-  fi
-  prompt_menu "Run the following init scripts?" $prompt_delay
-  # Write out cache file for future reading.
-  rm "$init_file" 2>/dev/null
-  for i in "${!menu_selects[@]}"; do
-    echo "${menu_selects[i]}" >> "$init_file"
-    echo "$dirname/${menu_selects[i]}"
-  done
-}
 function init_do() {
   e_header "Sourcing $(basename "$2")"
   source "$2"
@@ -223,7 +194,6 @@ function link_do() {
 function do_stuff() {
   local base dest skip
   local files=($DOTFILES/$1/*)
-  [[ $(declare -f "$1_files") ]] && files=($($1_files "${files[@]}"))
   # No files? abort.
   if (( ${#files[@]} == 0 )); then return; fi
   # Run _header function only if declared.
