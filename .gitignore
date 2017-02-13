@@ -4,6 +4,3 @@ link/.ssh/authorized_keys
 link/.ssh/id_*
 link/.ssh/known_hosts
 *LOCAL*
-chef/cookbooks/
-Berksfile.lock
-chef-client-running.pid
