@@ -146,21 +146,21 @@ function setdiff() {
   local debug skip a b
   if [[ "$1" == 1 ]]; then debug=1; shift; fi
   if [[ "$1" ]]; then
-    local setdiffA setdiffB setdiffC
-    setdiffA=($1); setdiffB=($2)
+    local setdiff_new setdiff_cur setdiff_out
+    setdiff_new=($1); setdiff_cur=($2)
   fi
-  setdiffC=()
-  for a in "${setdiffA[@]}"; do
+  setdiff_out=()
+  for a in "${setdiff_new[@]}"; do
     skip=
-    for b in "${setdiffB[@]}"; do
+    for b in "${setdiff_cur[@]}"; do
       [[ "$a" == "$b" ]] && skip=1 && break
     done
-    [[ "$skip" ]] || setdiffC=("${setdiffC[@]}" "$a")
+    [[ "$skip" ]] || setdiff_out=("${setdiff_out[@]}" "$a")
   done
-  [[ "$debug" ]] && for a in setdiffA setdiffB setdiffC; do
+  [[ "$debug" ]] && for a in setdiff_new setdiff_cur setdiff_out; do
     echo "$a ($(eval echo "\${#$a[*]}")) $(eval echo "\${$a[*]}")" 1>&2
   done
-  [[ "$1" ]] && echo "${setdiffC[@]}"
+  [[ "$1" ]] && echo "${setdiff_out[@]}"
 }
 
 # If this file was being sourced, exit now.
